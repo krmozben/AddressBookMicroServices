@@ -13,22 +13,36 @@ namespace AddressBook.Contacts.Application.Repositories
         public ContactsRepository(AddressBookDbContext context) => _context = context;
 
 
-        public Task AddAsync(Contact entity)
+        public async Task AddAsync(Contact entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<Contact>> GetAsync(Expression<Func<Contact, bool>> predicate)
-        {
-            throw new NotImplementedException();
+            await _context.Contacts.AddAsync(entity);
+            await SaveChangesAsync();
         }
 
         public Task UpdateAsync(Contact entity)
         {
-            throw new NotImplementedException();
+            _context.Entry(entity).State = EntityState.Modified;
+
+            return Task.CompletedTask;
         }
 
         public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
         public async Task MigrateDatabaseAsync() => await _context.Database.MigrateAsync();
+
+        public async Task<IEnumerable<Contact>> GetListAsync(Expression<Func<Contact, bool>> predicate)
+        {
+            return await _context.Set<Contact>().Where(predicate).Include(i => i.ContactInformation).ToListAsync();
+        }
+
+        public async Task<Contact> GetAsync(Expression<Func<Contact, bool>> predicate)
+        {
+            return await _context.Set<Contact>().Where(predicate).Include(i => i.ContactInformation).FirstOrDefaultAsync();
+        }
+
+        public Task DeleteAsync(Contact entity)
+        {
+            _context.Remove(entity);
+            return Task.CompletedTask;
+        }
     }
 }

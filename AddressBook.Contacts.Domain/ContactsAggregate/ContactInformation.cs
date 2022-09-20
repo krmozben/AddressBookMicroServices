@@ -5,7 +5,7 @@ namespace AddressBook.Contacts.Domain.ContactsAggregate
 {
     public class ContactInformation : Entity
     {
-        public InformationType Type { get; private set; }
+        public string Type { get; private set; }
         public string Content { get; private set; }
 
         public ContactInformation()
@@ -15,7 +15,7 @@ namespace AddressBook.Contacts.Domain.ContactsAggregate
 
         public ContactInformation(InformationType type, string content)
         {
-            Type = type;
+            Type = type.ToString();
             Content = content;
         }
     }

@@ -22,9 +22,27 @@ namespace AddressBook.Contacts.Domain.ContactsAggregate
             Firm = firm;
         }
 
+        public void UpdateContact(string name, string lastName, string firm)
+        {
+            Name = name;
+            LastName = lastName;
+            Firm = new Firm(firm);
+        }
+
         public void AddContactInformation(ContactInformation contactInformation)
         {
             ContactInformation.Add(contactInformation);
         }
+
+        public void RemoveContactInformation(int contactInformationId)
+        {
+            var contactInformation = ContactInformation.Where(x => x.Id == contactInformationId).First();
+
+            ContactInformation.Remove(contactInformation);
+        }
+
+        public void SetActive() => IsActive = true;
+
+        public void SetPassife() => IsActive = false;
     }
 }
