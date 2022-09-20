@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AddressBook.Contacts.DomainCore\AddressBook.Contacts.DomainCore.csproj" />
+    <ProjectReference Include="..\AddressBook.Shared\AddressBook.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
