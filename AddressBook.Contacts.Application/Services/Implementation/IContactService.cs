@@ -1,4 +1,6 @@
-﻿using AddressBook.Shared.Model.Request;
+﻿using AddressBook.Contacts.Domain.ContactsAggregate;
+using AddressBook.Shared.Model.Request;
+using AddressBook.Shared.Model.Response;
 
 namespace AddressBook.Contacts.Application.Services.Implementation
 {
@@ -10,5 +12,7 @@ namespace AddressBook.Contacts.Application.Services.Implementation
         public Task DeleteContact(int id);
         public Task AddContactInformation(AddContactInformationRequest request);
         public Task RemoveContactInformation(RemoveContactInformationRequest request);
+        public Task<List<ContactResponse>> GetAllContacts();
+        public Task SetAllContactsOnRedis(List<Contact> contacts);
     }
 }

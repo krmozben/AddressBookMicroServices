@@ -1,3 +1,5 @@
+using AddressBook.Contacts.Application.Clients.Redis;
+using AddressBook.Contacts.Application.Configuration;
 using AddressBook.Contacts.Application.Consumers;
 using AddressBook.Contacts.Application.Repositories;
 using AddressBook.Contacts.Application.Services;
@@ -9,6 +11,7 @@ using AddressBook.Contacts.Infrastructure.Repositories.Base;
 using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +27,19 @@ builder.Services.AddDbContext<AddressBookDbContext>(opt =>
     });
 });
 
+builder.Services.Configure<RedisConfiguration>(builder.Configuration.GetSection("RedisConfiguration"));
+builder.Services.AddSingleton<RedisClient>(sp =>
+{
+    var redisSettings = sp.GetRequiredService<IOptions<RedisConfiguration>>().Value;
+
+    var redis = new RedisClient(redisSettings.Host, redisSettings.Port);
+
+    redis.Connect();
+
+    return redis;
+});
+
+
 builder.Services.AddMediatR(Assembly.Load("AddressBook.Contacts.Application"));
 
 builder.Services.AddMassTransit(x =>
@@ -34,6 +50,7 @@ builder.Services.AddMassTransit(x =>
     x.AddConsumer<DeleteContactConsumer>();
     x.AddConsumer<AddContactInformationConsumer>();
     x.AddConsumer<RemoveContactInformationConsumer>();
+    x.AddConsumer<UpdateAllContactsOnRedisConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {
@@ -74,6 +91,11 @@ builder.Services.AddMassTransit(x =>
         cfg.ReceiveEndpoint("remove-contact-information", e =>
         {
             e.ConfigureConsumer<RemoveContactInformationConsumer>(context);
+        }); 
+        
+        cfg.ReceiveEndpoint("update-all-contact-on-redis", e =>
+        {
+            e.ConfigureConsumer<UpdateAllContactsOnRedisConsumer>(context);
         });
     });
 });

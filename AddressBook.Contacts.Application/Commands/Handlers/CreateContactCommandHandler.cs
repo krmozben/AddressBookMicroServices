@@ -8,9 +8,9 @@ namespace AddressBook.Contacts.Application.Commands.Handlers
     {
         private readonly IRepository<Contact> _contactRepository;
 
-        public CreateContactCommandHandler(IRepository<Contact> shipmentRepository)
+        public CreateContactCommandHandler(IRepository<Contact> contactRepository)
         {
-            _contactRepository = shipmentRepository;
+            _contactRepository = contactRepository;
         }
 
         public async Task<Unit> Handle(CreateContactCommand request, CancellationToken cancellationToken)

@@ -10,9 +10,9 @@ namespace AddressBook.Contacts.Application.Commands.Handlers
         private readonly IRepository<Contact> _contactRepository;
         private readonly ILogger<RemoveContactInformationCommandHandler> _logger;
 
-        public RemoveContactInformationCommandHandler(IRepository<Contact> shipmentRepository, ILogger<RemoveContactInformationCommandHandler> logger)
+        public RemoveContactInformationCommandHandler(IRepository<Contact> contactRepository, ILogger<RemoveContactInformationCommandHandler> logger)
         {
-            _contactRepository = shipmentRepository;
+            _contactRepository = contactRepository;
             _logger = logger;
         }
 

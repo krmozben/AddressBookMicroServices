@@ -85,5 +85,11 @@ namespace AddressBook.Contacts.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllContacts()
+        {
+            return Ok(await _contactService.GetAllContacts());
+        }
     }
 }

@@ -18,9 +18,9 @@ namespace AddressBook.Contacts.Application.Consumers
         {
             await _mediatr.Send(new AddContactInformationCommand()
             {
-               Type = context.Message.Type,
-               Content = context.Message.Content,
-               ContactId = context.Message.ContactId
+                Type = context.Message.Type,
+                Content = context.Message.Content,
+                ContactId = context.Message.ContactId
             });
         }
     }
