@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AddressBook.Contacts.Infrastructure.Migrations
 {
     [DbContext(typeof(AddressBookDbContext))]
-    [Migration("20220921102721_initial")]
+    [Migration("20220921143846_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,6 +43,10 @@ namespace AddressBook.Contacts.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Uuid")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
