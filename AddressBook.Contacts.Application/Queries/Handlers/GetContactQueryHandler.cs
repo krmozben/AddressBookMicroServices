@@ -19,7 +19,7 @@ namespace AddressBook.Contacts.Application.Queries.Handlers
 
         public async Task<Contact> Handle(GetContactQuery request, CancellationToken cancellationToken)
         {
-            var result = await _contactRepository.GetAsync(x => x.Id == request.Id);
+            var result = await _contactRepository.GetAsync(x => x.Uuid == request.Uuid);
 
             return result;
         }

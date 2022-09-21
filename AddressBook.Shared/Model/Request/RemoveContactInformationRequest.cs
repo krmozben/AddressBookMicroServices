@@ -2,7 +2,7 @@
 {
     public class RemoveContactInformationRequest
     {
-        public int ContactId { get; set; }
+        public string Uuid { get; set; }
         public int ContactInformationId { get; set; }
     }
 }

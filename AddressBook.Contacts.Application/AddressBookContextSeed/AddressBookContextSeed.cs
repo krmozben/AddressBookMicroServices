@@ -31,17 +31,17 @@ namespace AddressBook.Contacts.Application.AddressBookContextSeed
 
         private List<Contact> GetSeedData()
         {
-            Contact c1 = new("Kerim", "Özben", new Firm("Microsoft"));
+            Contact c1 = new("Kerim", "Özben", "",new Firm("Microsoft"));
             c1.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.Location,"Türkiye"));
             c1.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.PhoneNumber,"054151549"));
             c1.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.EmailAdress,"ozbenkerim@gmail.com"));
 
-            Contact c2 = new("Halil", "Tayfur", new Firm("Apple"));
+            Contact c2 = new("Halil", "Tayfur", "", new Firm("Apple"));
             c2.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.Location, "Türkiye"));
             c2.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.PhoneNumber, "054654456"));
             c2.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.PhoneNumber, "054648767"));
 
-            Contact c3 = new("Ahmet", "Genç", new Firm("Microsoft"));
+            Contact c3 = new("Ahmet", "Genç", "", new Firm("Microsoft"));
             c3.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.Location, "Hollanda"));
             c3.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.PhoneNumber, "065464793"));
             c3.AddContactInformation(new ContactInformation(Shared.Enums.InformationType.PhoneNumber, "065167829"));

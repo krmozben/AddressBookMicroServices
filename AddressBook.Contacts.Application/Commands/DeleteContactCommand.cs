@@ -4,6 +4,6 @@ namespace AddressBook.Contacts.Application.Commands
 {
     public class DeleteContactCommand : IRequest
     {
-        public int Id { get; set; }
+        public string Uuid { get; set; }
     }
 }

@@ -5,6 +5,6 @@ namespace AddressBook.Contacts.Application.Queries
 {
     public class GetContactQuery : IRequest<Contact>
     {
-        public int Id { get; set; }
+        public string Uuid { get; set; }
     }
 }

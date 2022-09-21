@@ -32,15 +32,15 @@ namespace AddressBook.Contacts.Application.Services
             await UpdateAllContactsOnRedis();
         }
 
-        public async Task RemoveContact(int id)
+        public async Task RemoveContact(string uuid)
         {
-            await _busControl.Publish<RemoveContactRequest>(new() { Id = id });
+            await _busControl.Publish<RemoveContactRequest>(new() { Uuid = uuid });
             await UpdateAllContactsOnRedis();
         }
 
-        public async Task DeleteContact(int id)
+        public async Task DeleteContact(string uuid)
         {
-            await _busControl.Publish<DeleteContactRequest>(new() { Id = id });
+            await _busControl.Publish<DeleteContactRequest>(new() { Uuid = uuid });
             await UpdateAllContactsOnRedis();
         }
 
@@ -86,21 +86,22 @@ namespace AddressBook.Contacts.Application.Services
             {
                 Firm = x.Firm.Name,
                 LastName = x.LastName,
-                Name = x.Name
+                Name = x.Name,
+                Uuid = x.Uuid
             }).ToList();
 
             var status = await _redisClient.GetDb().StringSetAsync("AllContacts", JsonSerializer.Serialize(data));
         }
 
-        public async Task<ContactInformationResponse> GetContact(int Id)
+        public async Task<ContactInformationResponse> GetContact(string Uuid)
         {
             var response = new ContactInformationResponse();
 
-            var result = await _mediator.Send(new GetContactQuery() { Id = Id });
+            var result = await _mediator.Send(new GetContactQuery() { Uuid = Uuid });
 
             if (result == null)
             {
-                _logger.LogWarning($"No contact for this id:{Id} could be found.");
+                _logger.LogWarning($"No contact for this id:{Uuid} could be found.");
                 return null;
             }
 
@@ -109,7 +110,8 @@ namespace AddressBook.Contacts.Application.Services
                 ContactInformation = result.ContactInformation.Select(x => new InformationResponse() { Content = x.Content, Type = x.Type }).ToList(),
                 Firm = result.Firm.Name,
                 LastName = result.LastName,
-                Name = result.Name
+                Name = result.Name,
+                Uuid = result.Uuid
             };
 
             return response;

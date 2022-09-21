@@ -15,7 +15,7 @@ namespace AddressBook.Contacts.Application.Commands.Handlers
 
         public async Task<Unit> Handle(CreateContactCommand request, CancellationToken cancellationToken)
         {
-            await _contactRepository.AddAsync(new Contact(request.Name, request.LastName, new Firm(request.Firm)));
+            await _contactRepository.AddAsync(new Contact(request.Name, request.LastName,request.Uuid, new Firm(request.Firm)));
 
             await _contactRepository.SaveChangesAsync();
 

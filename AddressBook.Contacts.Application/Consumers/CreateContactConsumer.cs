@@ -20,7 +20,8 @@ namespace AddressBook.Contacts.Application.Consumers
             {
                 Name = context.Message.Name,
                 Firm = context.Message.Firm,
-                LastName = context.Message.LastName
+                LastName = context.Message.LastName,
+                Uuid = context.Message.Uuid
             });
         }
     }

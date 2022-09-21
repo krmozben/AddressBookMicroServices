@@ -4,7 +4,7 @@ namespace AddressBook.Contacts.Application.Commands
 {
     public class RemoveContactInformationCommand : IRequest
     {
-        public int ContactId { get; set; }
+        public string Uuid { get; set; }
         public int ContactInformationId { get; set; }
     }
 }

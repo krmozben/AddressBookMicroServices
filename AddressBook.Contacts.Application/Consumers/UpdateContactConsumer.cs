@@ -18,7 +18,7 @@ namespace AddressBook.Contacts.Application.Consumers
         {
             await _mediatr.Send(new UpdateContactCommand()
             {
-                Id = context.Message.Id,
+                Uuid = context.Message.Uuid,
                 Name = context.Message.Name,
                 Firm = context.Message.Firm,
                 LastName = context.Message.LastName

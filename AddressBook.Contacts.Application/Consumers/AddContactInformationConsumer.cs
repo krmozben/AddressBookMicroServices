@@ -20,7 +20,7 @@ namespace AddressBook.Contacts.Application.Consumers
             {
                 Type = context.Message.Type,
                 Content = context.Message.Content,
-                ContactId = context.Message.ContactId
+                Uuid = context.Message.Uuid
             });
         }
     }

@@ -18,7 +18,7 @@ namespace AddressBook.Contacts.Application.Consumers
         {
             await _mediatr.Send(new RemoveContactInformationCommand()
             {
-                ContactId = context.Message.ContactId,
+                Uuid = context.Message.Uuid,
                 ContactInformationId = context.Message.ContactInformationId
             });
         }

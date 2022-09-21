@@ -18,11 +18,11 @@ namespace AddressBook.Contacts.Application.Commands.Handlers
 
         public async Task<Unit> Handle(RemoveContactInformationCommand request, CancellationToken cancellationToken)
         {
-            var contact = await _contactRepository.GetAsync(x => x.Id == request.ContactId);
+            var contact = await _contactRepository.GetAsync(x => x.Uuid == request.Uuid);
 
             if (contact == null)
             {
-                _logger.LogWarning($"No contact for this id:{request.ContactId} could be found.");
+                _logger.LogWarning($"No contact for this id:{request.Uuid} could be found.");
                 return Unit.Value;
             }
 

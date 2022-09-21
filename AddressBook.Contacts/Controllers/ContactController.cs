@@ -27,9 +27,9 @@ namespace AddressBook.Contacts.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RemoveContact([FromQuery] int Id)
+        public async Task<IActionResult> RemoveContact([FromQuery] string Uuid)
         {
-            await _contactService.RemoveContact(Id);
+            await _contactService.RemoveContact(Uuid);
 
             return Ok();
         }
@@ -43,36 +43,36 @@ namespace AddressBook.Contacts.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteContact([FromQuery] int Id)
+        public async Task<IActionResult> DeleteContact([FromQuery] string Uuid)
         {
-            await _contactService.DeleteContact(Id);
+            await _contactService.DeleteContact(Uuid);
 
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> AddContactInformationEmail([FromQuery] int contactId, string content)
+        public async Task<IActionResult> AddContactInformationEmail([FromQuery] string Uuid, string content)
         {
 
-            await _contactService.AddContactInformation(new AddContactInformationRequest() { ContactId = contactId, Content = content, Type = Shared.Enums.InformationType.EmailAdress });
+            await _contactService.AddContactInformation(new AddContactInformationRequest() { Uuid = Uuid, Content = content, Type = Shared.Enums.InformationType.EmailAdress });
 
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> AddContactInformationLocation([FromQuery] int contactId, string content)
+        public async Task<IActionResult> AddContactInformationLocation([FromQuery] string Uuid, string content)
         {
 
-            await _contactService.AddContactInformation(new AddContactInformationRequest() { ContactId = contactId, Content = content, Type = Shared.Enums.InformationType.Location });
+            await _contactService.AddContactInformation(new AddContactInformationRequest() { Uuid = Uuid, Content = content, Type = Shared.Enums.InformationType.Location });
 
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> AddContactInformationPhone([FromQuery] int contactId, string content)
+        public async Task<IActionResult> AddContactInformationPhone([FromQuery] string Uuid, string content)
         {
 
-            await _contactService.AddContactInformation(new AddContactInformationRequest() { ContactId = contactId, Content = content, Type = Shared.Enums.InformationType.PhoneNumber });
+            await _contactService.AddContactInformation(new AddContactInformationRequest() { Uuid =  Uuid, Content = content, Type = Shared.Enums.InformationType.PhoneNumber });
 
             return Ok();
         }
@@ -93,9 +93,9 @@ namespace AddressBook.Contacts.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetContact([FromQuery] int Id)
+        public async Task<IActionResult> GetContact([FromQuery] string Uuid)
         {
-            return Ok(await _contactService.GetContact(Id));
+            return Ok(await _contactService.GetContact(Uuid));
         }
         
         [HttpGet]

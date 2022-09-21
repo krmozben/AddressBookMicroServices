@@ -16,7 +16,7 @@ namespace AddressBook.Contacts.Application.Consumers
 
         public async Task Consume(ConsumeContext<DeleteContactRequest> context)
         {
-            await _mediatr.Send(new DeleteContactCommand() { Id = context.Message.Id});
+            await _mediatr.Send(new DeleteContactCommand() { Uuid = context.Message.Uuid});
         }
     }
 }

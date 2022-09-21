@@ -2,6 +2,6 @@
 {
     public class DeleteContactRequest
     {
-        public int Id { get; set; }
+        public string Uuid { get; set; }
     }
 }
