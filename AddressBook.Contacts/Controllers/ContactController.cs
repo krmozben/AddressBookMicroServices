@@ -91,5 +91,17 @@ namespace AddressBook.Contacts.Controllers
         {
             return Ok(await _contactService.GetAllContacts());
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetContact([FromQuery] int Id)
+        {
+            return Ok(await _contactService.GetContact(Id));
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> GetLocationReport()
+        {
+            return Ok(await _contactService.GetLocationReport());
+        }
     }
 }

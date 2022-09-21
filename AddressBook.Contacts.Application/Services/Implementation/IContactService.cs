@@ -14,5 +14,7 @@ namespace AddressBook.Contacts.Application.Services.Implementation
         public Task RemoveContactInformation(RemoveContactInformationRequest request);
         public Task<List<ContactResponse>> GetAllContacts();
         public Task SetAllContactsOnRedis(List<Contact> contacts);
+        public Task<ContactInformationResponse> GetContact(int Id);
+        public Task<List<LocationReportResponse>> GetLocationReport();
     }
 }

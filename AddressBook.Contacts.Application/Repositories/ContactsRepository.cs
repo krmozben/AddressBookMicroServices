@@ -1,4 +1,5 @@
 ﻿using AddressBook.Contacts.Domain.ContactsAggregate;
+using AddressBook.Contacts.Domain.Sp;
 using AddressBook.Contacts.Infrastructure;
 using AddressBook.Contacts.Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,11 @@ namespace AddressBook.Contacts.Application.Repositories
 
         public ContactsRepository(AddressBookDbContext context) => _context = context;
 
+        public async Task AddRangeAsync(List<Contact> entity)
+        {
+            await _context.Contacts.AddRangeAsync(entity);
+            await SaveChangesAsync();
+        }
 
         public async Task AddAsync(Contact entity)
         {

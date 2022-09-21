@@ -7,6 +7,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using AddressBook.Contacts.Application.Queries;
 
 namespace AddressBook.Contacts.Application.Services
 {
@@ -52,26 +53,27 @@ namespace AddressBook.Contacts.Application.Services
         public async Task AddContactInformation(AddContactInformationRequest request)
         {
             await _busControl.Publish(request);
-            await UpdateAllContactsOnRedis();
         }
 
         public async Task RemoveContactInformation(RemoveContactInformationRequest request)
         {
             await _busControl.Publish(request);
-            await UpdateAllContactsOnRedis();
         }
 
         public async Task<List<ContactResponse>> GetAllContacts()
         {
             var response = new List<ContactResponse>();
 
-            var cacheResult = await _redisClient.GetDb().StringGetAsync("AllContacts");
+            var keyExists = await _redisClient.GetDb().KeyExistsAsync("AllContacts");
 
-            if (String.IsNullOrEmpty(cacheResult))
+            if (!keyExists)
             {
-                await _busControl.Publish(new UpdateAllContactsOnRedisRequest());
-                return response;
+                var contacts = await _mediator.Send(new GetAllContactQuery());
+
+                await SetAllContactsOnRedis(contacts);
+
             }
+            var cacheResult = await _redisClient.GetDb().StringGetAsync("AllContacts");
 
             response = JsonSerializer.Deserialize<List<ContactResponse>>(cacheResult);
 
@@ -88,6 +90,34 @@ namespace AddressBook.Contacts.Application.Services
             }).ToList();
 
             var status = await _redisClient.GetDb().StringSetAsync("AllContacts", JsonSerializer.Serialize(data));
+        }
+
+        public async Task<ContactInformationResponse> GetContact(int Id)
+        {
+            var response = new ContactInformationResponse();
+
+            var result = await _mediator.Send(new GetContactQuery() { Id = Id });
+
+            if (result == null)
+            {
+                _logger.LogWarning($"No contact for this id:{Id} could be found.");
+                return null;
+            }
+
+            response = new ContactInformationResponse
+            {
+                ContactInformation = result.ContactInformation.Select(x => new InformationResponse() { Content = x.Content, Type = x.Type }).ToList(),
+                Firm = result.Firm.Name,
+                LastName = result.LastName,
+                Name = result.Name
+            };
+
+            return response;
+        }
+
+        public async Task<List<LocationReportResponse>> GetLocationReport()
+        {
+           return await _mediator.Send(new LocationReportQuery());
         }
 
         private async Task UpdateAllContactsOnRedis()

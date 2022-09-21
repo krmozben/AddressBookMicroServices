@@ -81,6 +81,21 @@ namespace AddressBook.Contacts.Infrastructure.Migrations
                     b.ToTable("ContactInformations");
                 });
 
+            modelBuilder.Entity("AddressBook.Contacts.Domain.Sp.LocationReport", b =>
+                {
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhoneNumberCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("LocationReports");
+                });
+
             modelBuilder.Entity("AddressBook.Contacts.Domain.ContactsAggregate.Contact", b =>
                 {
                     b.OwnsOne("AddressBook.Contacts.Domain.ContactsAggregate.Firm", "Firm", b1 =>

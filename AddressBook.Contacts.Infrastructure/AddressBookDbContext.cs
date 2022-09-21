@@ -1,4 +1,5 @@
 ﻿using AddressBook.Contacts.Domain.ContactsAggregate;
+using AddressBook.Contacts.Domain.Sp;
 using Microsoft.EntityFrameworkCore;
 
 namespace AddressBook.Contacts.Infrastructure
@@ -12,6 +13,7 @@ namespace AddressBook.Contacts.Infrastructure
 
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<ContactInformation> ContactInformations { get; set; }
+        public DbSet<LocationReport> LocationReports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

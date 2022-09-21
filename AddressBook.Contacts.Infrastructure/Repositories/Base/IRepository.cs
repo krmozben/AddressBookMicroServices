@@ -5,6 +5,7 @@ namespace AddressBook.Contacts.Infrastructure.Repositories.Base
 {
     public interface IRepository<T> where T : Entity, IAggregateRoot
     {
+        public Task AddRangeAsync(List<T> entity);
         public Task AddAsync(T entity);
         public Task UpdateAsync(T entity);
         public Task DeleteAsync(T entity);

@@ -1,3 +1,4 @@
+using AddressBook.Contacts.Application.AddressBookContextSeed;
 using AddressBook.Contacts.Application.Clients.Redis;
 using AddressBook.Contacts.Application.Configuration;
 using AddressBook.Contacts.Application.Consumers;
@@ -101,6 +102,7 @@ builder.Services.AddMassTransit(x =>
 });
 
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<AddressBookContextSeed>();
 builder.Services.AddScoped(typeof(IRepository<Contact>), typeof(ContactsRepository));
 
 
@@ -124,5 +126,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
+app.MigrateDatabase(app.Services.GetRequiredService<ILogger<Program>>(), builder.Configuration);
 
 app.Run();

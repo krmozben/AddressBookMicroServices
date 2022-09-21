@@ -34,6 +34,11 @@ namespace AddressBook.Contacts.Domain.ContactsAggregate
             ContactInformation.Add(contactInformation);
         }
 
+        public object ToList()
+        {
+            throw new NotImplementedException();
+        }
+
         public void RemoveContactInformation(int contactInformationId)
         {
             var contactInformation = ContactInformation.Where(x => x.Id == contactInformationId).First();

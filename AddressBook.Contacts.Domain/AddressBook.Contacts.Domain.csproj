@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AddressBook.Contacts.DomainCore\AddressBook.Contacts.DomainCore.csproj" />
     <ProjectReference Include="..\AddressBook.Shared\AddressBook.Shared.csproj" />
   </ItemGroup>

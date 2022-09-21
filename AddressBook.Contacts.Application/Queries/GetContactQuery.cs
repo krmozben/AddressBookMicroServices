@@ -3,7 +3,8 @@ using MediatR;
 
 namespace AddressBook.Contacts.Application.Queries
 {
-    public class GetAllContactQuery : IRequest<List<Contact>>
+    public class GetContactQuery : IRequest<Contact>
     {
-    } 
+        public int Id { get; set; }
+    }
 }

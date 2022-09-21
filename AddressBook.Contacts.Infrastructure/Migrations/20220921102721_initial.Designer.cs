@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AddressBook.Contacts.Infrastructure.Migrations
 {
     [DbContext(typeof(AddressBookDbContext))]
-    [Migration("20220920131949_init")]
-    partial class init
+    [Migration("20220921102721_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,14 +72,30 @@ namespace AddressBook.Contacts.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ContactId");
 
                     b.ToTable("ContactInformations");
+                });
+
+            modelBuilder.Entity("AddressBook.Contacts.Domain.Sp.LocationReport", b =>
+                {
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PhoneNumberCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("LocationReports");
                 });
 
             modelBuilder.Entity("AddressBook.Contacts.Domain.ContactsAggregate.Contact", b =>

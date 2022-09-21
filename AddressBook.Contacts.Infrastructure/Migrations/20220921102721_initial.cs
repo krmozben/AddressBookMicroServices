@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AddressBook.Contacts.Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,12 +27,24 @@ namespace AddressBook.Contacts.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LocationReports",
+                columns: table => new
+                {
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Count = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumberCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ContactInformations",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Type = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContactId = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -58,6 +70,9 @@ namespace AddressBook.Contacts.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ContactInformations");
+
+            migrationBuilder.DropTable(
+                name: "LocationReports");
 
             migrationBuilder.DropTable(
                 name: "Contacts");
