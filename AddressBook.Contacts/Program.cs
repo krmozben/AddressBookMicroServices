@@ -11,12 +11,18 @@ using AddressBook.Contacts.Infrastructure;
 using AddressBook.Contacts.Infrastructure.Repositories.Base;
 using MassTransit;
 using MediatR;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using NLog.Web;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(LogLevel.Trace);
+builder.Host.UseNLog();
 // Add services to the container.
 
 builder.Services.AddDbContext<AddressBookDbContext>(opt =>
@@ -106,6 +112,18 @@ builder.Services.AddScoped<AddressBookContextSeed>();
 builder.Services.AddScoped(typeof(IRepository<Contact>), typeof(ContactsRepository));
 
 
+builder.Services.AddHealthChecks()
+                .AddSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection"),
+                    name: "AddressBook Management Sql Server Database")
+                .AddElasticsearch(
+                    builder.Configuration.GetValue<string>("ElasticSearchUrl"),
+                    "AddressBook ElasticSearch Log Pool")
+                .AddRedis("localhost",
+                    name: "AddressBook Redis")
+                 .AddRabbitMQ("amqp://guest:guest@localhost:5672",
+                    name: "AddressBook RabbitMQ");
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -124,6 +142,22 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = async (c, r) =>
+    {
+        c.Response.ContentType = "application/json";
+
+        var result = JsonConvert.SerializeObject(new
+        {
+            status = r.Status.ToString(),
+            totalDuration = r.TotalDuration.ToString(),
+            components = r.Entries.Select(e => new { name = e.Key, status = e.Value.Status.ToString(), duration = e.Value.Duration }),
+        });
+        await c.Response.WriteAsync(result);
+    }
+});
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
